@@ -15,6 +15,9 @@ dist-ssr
 # SQLite RSVP data
 data/
 
+# Source design originals — not used by the build (the app bundles src/assets/)
+media/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
