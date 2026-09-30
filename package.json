@@ -1,0 +1,58 @@
+{
+  "name": "caroline-william-wedding-2027",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n web,api -c cyan,magenta \"npm:dev:web\" \"npm:dev:api\"",
+    "dev:web": "vite",
+    "dev:api": "tsx watch server/index.ts",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "server": "tsx server/index.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "better-sqlite3": "^12.2.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.7.0",
+    "lucide-react": "^0.575.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.5.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/node": "^22.16.5",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.32.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^15.15.0",
+    "prettier": "^3.7.3",
+    "tailwindcss": "^4.2.1",
+    "tsx": "^4.19.3",
+    "tw-animate-css": "^1.3.4",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.56.1",
+    "vite": "^6.0.7"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.25.12": true,
+    "better-sqlite3@12.11.1": true
+  }
+}
