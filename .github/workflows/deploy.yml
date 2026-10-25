@@ -26,8 +26,10 @@ jobs:
       - run: npm ci
       - name: Build
         env:
-          # Project Pages are served from /<repo>/, so assets need that base path.
-          VITE_BASE: /${{ github.event.repository.name }}/
+          # Served from the custom domain root (carolinewilliamgotland.com), so
+          # the base path is "/". (For a project page without a custom domain
+          # this would need to be /<repo>/.)
+          VITE_BASE: /
           # URL of the separately-hosted RSVP API (set as a repo variable).
           # GitHub Pages is static and cannot run the Node/SQLite server itself.
           VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
