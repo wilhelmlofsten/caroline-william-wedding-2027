@@ -1,15 +1,20 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import sunset from "@/assets/sunset.jpg";
-import monogram from "@/assets/hero-monogram.jpg";
-import monogramRound from "@/assets/monogram-round.jpg";
+import logoMark from "@/assets/logo-mark.png";
+import couple from "@/assets/couple.jpg";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+const OSA_EMAIL = "carrowillegotland2027@gmail.com";
 
 const nav = [
-  ["Hem", "hem"], ["Vår historia", "historia"], ["Program", "program"],
-  ["Plats", "plats"], ["Boende", "boende"], ["OSA", "osa"],
+  ["Hem", "hem"], ["OSA", "osa"], ["Program", "program"],
+  ["Plats", "plats"], ["Klädkod", "kladkod"], ["Boende", "boende"],
+] as const;
+
+const schedule = [
+  { name: "Fredag", date: "6 augusti", events: [["18.30–22.30", "Välkomstmingel på Smakrike krog & Logi"]] },
+  { name: "Lördag", date: "7 augusti", events: [["13.30", "Bussar avgår från Ljugarn"], ["14.00", "Vigsel i Lau kyrka"], ["15.30", "Bussar avgår från Lau kyrka"], ["16.00", "Drink & lekar"], ["18.00", "Middag"], ["22.15", "Fest"], ["00–03", "Bussar / taxi hemåt"]] },
 ] as const;
 
 function useCountdown() {
@@ -26,9 +31,14 @@ function useCountdown() {
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState<string>("hem");
   const countdown = useCountdown();
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50);
+      const current = nav.filter(([, id]) => (document.getElementById(id)?.getBoundingClientRect().top ?? Infinity) <= 120).at(-1);
+      setActive(current?.[1] ?? "hem");
+    };
     onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -43,35 +53,34 @@ export default function App() {
 
   return <div className="site-shell">
     <header className={`site-nav ${scrolled || menuOpen ? "site-nav-solid" : ""}`}>
-      <a href="#hem" className="nav-mark" aria-label="Caroline och William, till toppen">C<span>&</span>W</a>
+      <a href="#hem" className="nav-mark" aria-label="Caroline och William, till toppen"><img src={logoMark} alt="" /></a>
       <nav className={`nav-links ${menuOpen ? "nav-links-open" : ""}`} aria-label="Huvudmeny">
-        {nav.map(([label, id]) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}
+        {nav.map(([label, id]) => <a key={id} href={`#${id}`} className={active === id ? "nav-active" : undefined} aria-current={active === id ? "location" : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
       </nav>
+      <span className="nav-date">6–7 aug 2027</span>
       <Button variant="ghost" size="icon" className="nav-toggle" aria-label={menuOpen ? "Stäng meny" : "Öppna meny"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</Button>
     </header>
 
     <main>
       <section id="hem" className="hero" aria-labelledby="hero-title">
-        <img className="hero-photo" src={monogram} alt="" aria-hidden="true" />
-        <div className="hero-wash" />
-        <div className="hero-content">
-          <p className="eyebrow hero-eyebrow">Vi ska gifta oss</p>
-          <h1 id="hero-title">Caroline <span>&</span> William</h1>
-          <div className="hero-rule" />
-          <p className="hero-date">Gotland <span>·</span> 6–7 augusti 2027</p>
-          <a href="#valkommen" className="hero-scroll" aria-label="Scrolla till välkomsthälsningen"><span>Scrolla vidare</span><ArrowDown size={16} /></a>
+        <div className="hero-text">
+          <p className="eyebrow hero-eyebrow">Vi ska<br />gifta oss</p>
+          <h1 id="hero-title">Caroline<br /><span>&</span> William</h1>
+          <p className="hero-date">Gotland<br />6–7 augusti 2027</p>
+          <a href="#valkommen" className="text-link hero-scroll">Scrolla vidare <ArrowDown size={14} /></a>
         </div>
-        <span className="hero-side-note">Ett sommarminne att dela tillsammans</span>
+        <div className="hero-panel"><img src={couple} alt="Caroline och William framför en solnedgång" /></div>
       </section>
 
-      <section id="valkommen" className="intro section-pad">
-        <div className="intro-inner reveal">
-          <p className="eyebrow">Till våra favoritmänniskor</p>
-          <span className="ornament">✳</span>
-          <h2>Hej favoritmänniskor!</h2>
-          <p>Det har blivit dags. Vi ska göra det officiellt, lova varandra evig trohet och framför allt ställa till med en hej dundrande fest.</p>
-          <p>Det här är bara ett digitalt litet livstecken så att ni kan låsa in datumen i kalendern redan nu. Inbjudan med alla praktiska detaljer, klockslag & OSA-info kommer i höst.</p>
-          <p className="intro-signoff">Vi längtar efter att fira med er! <span>Caroline & William</span></p>
+      <section id="valkommen" className="intro split section-pad">
+        <div className="split-head reveal">
+          <p className="eyebrow">Vi ska gifta oss!</p>
+          <h2 className="block-title">Hej favoritmänniskor!</h2>
+        </div>
+        <div className="split-body reveal">
+          <p>Äntligen är det dags – vi ska gifta oss!</p>
+          <p>Det betyder allt för oss att få samla våra nära och kära på Gotland för en hel helg av firande. Här på hemsidan hittar ni alla detaljer om programmet och annat som är bra att veta inför resan.</p>
+          <p>Snälla glöm inte att OSA senast den 29 maj så vi vet om ni firar med oss. Vi längtar efter er!</p>
         </div>
       </section>
 
@@ -82,30 +91,48 @@ export default function App() {
         </div>
       </section>
 
-      <section id="historia" className="story section-pad">
-        <div className="section-heading reveal"><p className="eyebrow">Det bästa har bara börjat</p><h2>Vår historia</h2><div className="section-divider" /></div>
-        <div className="story-grid">
-          <div className="story-image-wrap reveal"><img src={sunset} alt="Caroline och William på resa tillsammans" loading="lazy" /><span className="image-caption">Ett ögonblick, mitt i allt det fina.</span></div>
-          <div className="story-copy reveal"><span className="story-number">01 / VÅR BERÄTTELSE</span><h3>Två personer.<br /><em>Ett äventyr.</em></h3><p>Det är något alldeles särskilt med att få dela livet med sin favoritperson. Nu ser vi fram emot nästa kapitel — och att få börja det tillsammans med er på Gotland.</p><p>Mer av vår historia kommer snart. Tills dess: spara datumen, packa för sommar och gör er redo att fira med oss.</p><a className="text-link" href="#program">Se helgens program <ArrowRight size={16} /></a></div>
+      <section id="osa" className="rsvp section-pad"><RsvpForm /></section>
+
+      <section id="program" className="program">
+        <div className="program-intro reveal">
+          <p className="eyebrow">Två dagar att minnas</p>
+          <h2 className="block-title">Helgens program</h2>
+          <p>En helg fylld med kärlek, skratt, dans och kanske en lek eller två. Vi har fått nöjet av att få styra bröllopsfest i en regi på det fina, lantliga och bäst-i-fest säkrade Hajdeby gårds party lada!</p>
+          <p>Basecamp med fredags chill-krök och avgång för diverse färdmedel har vi lagt i hippie-byn Ljugarn där vi reserverat hotellrum för dom som vill.</p>
+          <p>Toast mästarna för helgen är inga mindre än Victor ”Pson” och Mikaela Lindén som utlovat inget mindre än en 2+ kväll!</p>
+        </div>
+        <div className="program-panel reveal">
+          {schedule.map(day => <div className="program-day" key={day.name}>
+            <h3>{day.name}<span>{day.date}</span></h3>
+            <span className="day-dash" aria-hidden="true" />
+            <ul>{day.events.map(([time, label]) => <li key={time}><time>{time}</time><span>{label}</span></li>)}</ul>
+          </div>)}
+          <p className="program-note">Tiderna är preliminära – slutliga detaljer kommer med inbjudan.</p>
         </div>
       </section>
 
-      <section id="program" className="program section-pad">
-        <div className="section-heading reveal"><p className="eyebrow">Två dagar att minnas</p><h2>Helgens program</h2><div className="section-divider" /><p>En helg fylld av kärlek, skratt och dans. Vi uppdaterar med fler detaljer när den officiella inbjudan kommer.</p></div>
-        <div className="program-grid reveal">
-          <div className="program-day"><div className="day-head"><span>01</span><div><p>6 augusti 2027</p><h3>Fredag</h3></div></div><div className="event"><time>18.30</time><span>Välkomstmingel</span></div><div className="event"><time>22.00</time><span>Fri lek</span></div></div>
-          <div className="program-day"><div className="day-head"><span>02</span><div><p>7 augusti 2027</p><h3>Lördag</h3></div></div><div className="event"><time>13.30</time><span>Bussar avgår från Ljugarn</span></div><div className="event"><time>14.00</time><span>Vigsel i Lau kyrka</span></div><div className="event"><time>15.30</time><span>Bussar avgår från Lau kyrka</span></div><div className="event"><time>16.00</time><span>Drink & lekar</span></div><div className="event"><time>18.00</time><span>Middag</span></div><div className="event"><time>22.15</time><span>Fest</span></div><div className="event"><time>00–03</time><span>Bussar / taxi hemåt</span></div></div>
-        </div>
-        <p className="program-note reveal">Tiderna är preliminära – slutliga detaljer kommer med inbjudan.</p>
+      <section id="plats" className="place columns section-pad">
+        <div className="column reveal"><p className="eyebrow">Östersjöns pärla</p><h2 className="block-title">Vi ses på Gotland</h2><p>En sommarhelg på ön, med havet nära och tid att vara tillsammans. Vigseln är planerad i Lau kyrka och lördagens bussar avgår från Ljugarn.</p></div>
+        <div className="column reveal"><h3 className="block-title">Hitta hit</h3><p>Res med färja till Visby från Nynäshamn eller Oskarshamn, eller flyg till Visby flygplats.</p><a className="text-link" href="https://www.destinationgotland.se/" target="_blank" rel="noopener noreferrer">Boka färja <ArrowUpRight size={14} /></a></div>
+        <div className="column reveal"><h3 className="block-title">Lau kyrka</h3><p>Vigseln äger rum i Lau kyrka på sydöstra Gotland. Mer om transporterna kommer i inbjudan.</p><a className="text-link" href="https://www.google.com/maps/search/?api=1&query=Lau+kyrka+Gotland" target="_blank" rel="noopener noreferrer">Visa på karta <ArrowUpRight size={14} /></a></div>
       </section>
 
-      <section id="plats" className="place section-pad"><div className="place-inner reveal"><p className="eyebrow">Östersjöns pärla</p><h2>Vi ses på <em>Gotland</em></h2><p>En sommarhelg på ön, med havet nära och tid att vara tillsammans. Vigseln är planerad i Lau kyrka och lördagens bussar avgår från Ljugarn.</p><div className="place-details"><div><span className="detail-icon">✳</span><h3>Hitta hit</h3><p>Res med färja till Visby från Nynäshamn eller Oskarshamn, eller flyg till Visby flygplats.</p><a className="text-link" href="https://www.destinationgotland.se/" target="_blank" rel="noopener noreferrer">Boka färja <ArrowUpRight size={15} /></a></div><div><span className="detail-icon">✳</span><h3>Lau kyrka</h3><p>Vigseln äger rum i Lau kyrka på sydöstra Gotland. Mer om transporterna kommer i inbjudan.</p><a className="text-link" href="https://www.google.com/maps/search/?api=1&query=Lau+kyrka+Gotland" target="_blank" rel="noopener noreferrer">Visa på karta <ArrowUpRight size={15} /></a></div></div></div></section>
+      <section id="kladkod" className="dress split section-pad">
+        <div className="split-head reveal"><p className="eyebrow">Vad ska jag ha på mig?</p><h2 className="block-title">Klädkod</h2></div>
+        <div className="split-body reveal"><h3 className="block-title">Festlig sommarelegans</h3><p>Klä dig fint men somrigt – tänk ljusa tyger, sommarklänningar och kostym utan slips. Vigseln är i kyrka och festen i en lada på landet, så välj gärna skor som klarar både gräs och dansgolv.</p><p>Gotländska augustikvällar kan bli svala, så ta med en tröja eller sjal till kvällen.</p></div>
+      </section>
 
-      <section id="boende" className="stay section-pad"><div className="section-heading reveal"><p className="eyebrow">Gör en helg av det</p><h2>Boende på ön</h2><div className="section-divider" /><p>Augusti är en eftertraktad tid på Gotland. Vi rekommenderar att boka ert boende i god tid.</p></div><div className="stay-grid reveal"><div><span>01</span><h3>Ljugarn</h3><p>En härlig utgångspunkt nära lördagens bussavgång. Här finns hotell, pensionat och sommarboenden.</p></div><div><span>02</span><h3>Södra Gotland</h3><p>Utforska boenden i byarna kring Lau och längs kusten för en lugn helg nära firandet.</p></div><div><span>03</span><h3>Visby med omnejd</h3><p>För dig som vill kombinera bröllopshelgen med stadsliv och upptäckter på ön.</p></div></div><p className="stay-note">Konkreta boendetips och praktisk information kommer i höst.</p></section>
+      <section id="boende" className="stay split section-pad">
+        <div className="split-head reveal"><p className="eyebrow">Gör en helg av det</p><h2 className="block-title">Boende på ön</h2><p>Augusti är en eftertraktad tid på Gotland. Vi rekommenderar att boka ert boende i god tid.</p><p className="stay-note">Konkreta boendetips och praktisk information kommer i höst.</p></div>
+        <div className="split-body reveal"><h3 className="block-title">Ljugarn</h3><p>Gotlands pärla om ni frågar oss med stränder så långt ögat når, röj på det legendariska Bruna dörren och en minigolfbana där Carro vann över William senast det spelades.</p><p>Vi har förreserverat rum på Strandlogiet som man kan boka <a className="inline-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer">här</a>.</p><p>Är man mer inne på att bo på ett ställe som kan husera en bäbis eller två så kan man även boka hemtrevliga hus i Ljugarn <a className="inline-link" href="https://www.stugknuten.com/sv/hyra-stuga/ljugarn" target="_blank" rel="noopener noreferrer">här</a>.</p></div>
+      </section>
 
-      <section id="osa" className="rsvp section-pad"><div className="rsvp-inner"><div className="rsvp-aside reveal"><p className="eyebrow">Vi hoppas att du kommer</p><h2>Låt oss<br /><em>veta.</em></h2><div className="section-divider" /><p>Den officiella inbjudan och OSA kommer i höst. Vill du redan nu ge oss en hint om du kan vara med? Skriv gärna här.</p><img src={monogramRound} alt="C och W monogram" loading="lazy" /></div><RsvpForm /></div></section>
+      <section className="kids split section-pad" aria-labelledby="kids-title">
+        <div className="split-head reveal"><p className="eyebrow">Viktigt besked</p><h2 id="kids-title" className="block-title">Meddelande till alla barn under 5 år</h2></div>
+        <div className="split-body reveal"><p>Är DU en ammande bäbis som precis har lärt dig att läsa, häng med mamma och pappa på bröllopsfirande på Gotland och njut av en full dag med härliga intryck som kommer göra att du sover gott under natten.</p><p>Är DU ett barn som börjat äta klämmisar och redan har börjat ifrågasätta samhällets sociala strukturer? Stanna hemma en helg och häng med mormor och morfar och ät godis tills du spricker, mamma och pappa är hemma inom kort!</p></div>
+      </section>
     </main>
-    <footer className="footer"><a href="#hem" className="footer-mark">C<span>&</span>W</a><p>Gotland · 6–7 augusti 2027</p><div className="footer-line" /><p className="footer-love">Med kärlek, Caroline & William</p><a href="#hem" className="back-top">Till toppen ↑</a></footer>
+    <footer className="footer linen"><a href="#hem" className="emboss footer-mark" aria-label="Caroline och William, till toppen"><span /></a><p>Gotland · 6–7 augusti 2027</p><p className="footer-love">Med kärlek, Caroline & William</p><a href="#hem" className="text-link back-top">Till toppen ↑</a></footer>
   </div>;
 }
 
@@ -137,7 +164,7 @@ function RsvpForm() {
     } catch (error) { setStatus("error"); setFeedback(error instanceof Error ? error.message : "Något gick fel. Försök igen."); }
   };
   return <form className="rsvp-form reveal" onSubmit={submit} noValidate={false}>
-    <div className="form-heading"><span className="eyebrow">Ett tidigt svar</span><h3>Kan du vara med?</h3><p>Fyll i dina uppgifter nedan så hörs vi snart igen.</p></div>
+    <div className="form-heading"><span className="eyebrow">Vi hoppas att du kommer</span><h3 className="block-title">OSA</h3><p>Den officiella inbjudan och OSA kommer i höst. Vill du redan nu ge oss en hint om du kan vara med? Skriv gärna här.</p><p>Fyll i dina uppgifter i formuläret nedan om du kan eller inte kan delta. OSA senast 29 maj. <strong>Det går bra att OSA genom vår bröllopsmail <a className="inline-link" href={`mailto:${OSA_EMAIL}?subject=${encodeURIComponent("OSA – Caroline & William 2027")}`}>{OSA_EMAIL}</a></strong></p></div>
     <div className="form-row"><label>Ditt namn <span>*</span><input name="name" type="text" autoComplete="name" minLength={2} maxLength={120} required placeholder="För- och efternamn" /></label><label>E-postadress <span>*</span><input name="email" type="email" autoComplete="email" maxLength={255} required placeholder="namn@exempel.se" /></label></div>
     <fieldset><legend>Kommer du? <span>*</span></legend><div className="radio-row"><label><input type="radio" name="attending" value="yes" checked={attending} onChange={() => setAttending(true)} /> Ja, jag kommer gärna</label><label><input type="radio" name="attending" value="no" checked={!attending} onChange={() => setAttending(false)} /> Nej, tyvärr inte</label></div></fieldset>
     {attending && <div className="form-row"><label>Antal personer totalt<select name="guest_count" defaultValue="1">{Array.from({ length: 10 }, (_, i) => <option key={i + 1} value={i + 1}>{i + 1}</option>)}</select></label><label>Namn på medföljande<input name="plus_one_name" type="text" maxLength={120} placeholder="Om du tar med någon" /></label></div>}
@@ -145,6 +172,7 @@ function RsvpForm() {
     <label>Vill du skriva något till oss?<textarea name="message" maxLength={2000} rows={3} placeholder="En hälsning, en fråga eller bara ett hej..." /></label>
     <div className="honeypot" aria-hidden="true"><label>Webbplats<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
     <Button variant="wedding" type="submit" disabled={status === "sending"} className="submit-btn">{status === "sending" ? "Skickar..." : "Skicka mitt svar"} <ArrowRight size={17} /></Button>
+    <p className="form-mail">Du kan också OSA via mail till <a className="inline-link" href={`mailto:${OSA_EMAIL}?subject=${encodeURIComponent("OSA – Caroline & William 2027")}`}>{OSA_EMAIL}</a>.</p>
     {feedback && <p role="status" className={`form-feedback ${status === "success" ? "form-success" : "form-error"}`}>{status === "success" && <Check size={18} />} {feedback}</p>}
   </form>;
 }
