@@ -4,7 +4,11 @@ A single-page, scroll-down wedding website for Caroline & William
 (Gotland, 6–7 August 2027), in Swedish.
 
 - **Frontend:** Vite + React 19 + TypeScript SPA (Tailwind v4 design system).
-- **Backend:** small Node + Express + TypeScript server with SQLite for RSVP submissions.
+- **RSVP:** the OSA form posts directly to [FormSubmit](https://formsubmit.co)
+  (`https://formsubmit.co/ajax/carrowillegotland2027@gmail.com`), which emails
+  each answer to the wedding inbox. No database or server is needed.
+- **Backend (currently unused):** small Node + Express + TypeScript server with
+  SQLite in `server/`, kept for a possible future database-backed RSVP.
 
 ## Getting started
 
@@ -24,7 +28,14 @@ npm run dev:web   # Vite only
 npm run dev:api   # RSVP server only (tsx watch)
 ```
 
-## RSVP data
+## RSVP by email
+
+FormSubmit requires a one-time activation: the very first submission sends a
+confirmation email to `carrowillegotland2027@gmail.com`. Click the activation
+link, after which every form submission arrives as an email (Reply-To is set to
+the guest's address). Submissions made before activation are not delivered.
+
+## RSVP data (unused server)
 
 Submissions are stored in SQLite at `data/rsvps.db` (git-ignored). Set
 `ADMIN_TOKEN` to enable a private listing endpoint:

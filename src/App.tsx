@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import logoMark from "@/assets/logo-mark.png";
 import couple from "@/assets/couple.jpg";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 const OSA_EMAIL = "carrowillegotland2027@gmail.com";
 
 const nav = [
@@ -156,12 +155,28 @@ function RsvpForm() {
     }
     setStatus("sending"); setFeedback("");
     try {
-      const response = await fetch(`${API_BASE}/api/rsvp`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, email, attending, guest_count, plus_one_name, dietary_notes, message, website: String(data.get("website") || "") }) });
-      const result = await response.json();
-      if (!response.ok || !result.ok) throw new Error(result.message);
-      setStatus("success"); setFeedback(result.message);
+      const response = await fetch(`https://formsubmit.co/ajax/${OSA_EMAIL}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: `OSA: ${name} – ${attending ? "kommer" : "kommer inte"}`,
+          _template: "table",
+          _replyto: email,
+          _honey: String(data.get("website") || ""),
+          Namn: name,
+          "E-post": email,
+          Kommer: attending ? "Ja" : "Nej",
+          "Antal personer": guest_count,
+          "Medföljande": plus_one_name || "–",
+          "Matpreferenser/allergier": dietary_notes || "–",
+          Meddelande: message || "–",
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || String(result.success) !== "true") throw new Error();
+      setStatus("success"); setFeedback("Tack! Ditt svar är skickat till oss.");
       form.reset();
-    } catch (error) { setStatus("error"); setFeedback(error instanceof Error ? error.message : "Något gick fel. Försök igen."); }
+    } catch { setStatus("error"); setFeedback(`Något gick fel. Försök igen eller maila oss på ${OSA_EMAIL}.`); }
   };
   return <form className="rsvp-form reveal" onSubmit={submit} noValidate={false}>
     <div className="form-heading"><span className="eyebrow">Vi hoppas att du kommer</span><h3 className="block-title">OSA</h3><p>Den officiella inbjudan och OSA kommer i höst. Vill du redan nu ge oss en hint om du kan vara med? Skriv gärna här.</p><p>Fyll i dina uppgifter i formuläret nedan om du kan eller inte kan delta. OSA senast 29 maj. <strong>Det går bra att OSA genom vår bröllopsmail <a className="inline-link" href={`mailto:${OSA_EMAIL}?subject=${encodeURIComponent("OSA – Caroline & William 2027")}`}>{OSA_EMAIL}</a></strong></p></div>
