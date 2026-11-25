@@ -204,7 +204,7 @@ export default function App() {
                 <div className="travelrow">
                   <h3>När dansskorna vill hem</h3>
                   <p>
-                    Returbussarna avgår från Hajdeby <strong>01.00 och 02.30</strong>. Vi bjuder dessutom på en standby-taxi till hotellen under kvällen och natten, med avgångar ungefär var 40:e minut.
+                    Returbussarna avgår från Hajdeby <strong>01.00 och 02.30</strong>. Vi bjuder dessutom på en standby-taxi till de förbokade hotellen i Ljugarn under kvällen och natten, med avgångar ungefär var 40:e minut från 23.00 fram tills 03.00. Om ni bokar boende i egen logi utanför Ljugarn ber vi er att förboka taxi i egen regi (Taxi Gotland eller Taxi Visby / Taxi Kurir).
                   </p>
                   <p className="small">Exakt returhållplats och eventuella taxiinstruktioner meddelas senare.</p>
                 </div>
@@ -219,7 +219,7 @@ export default function App() {
             <h2>Klädkod</h2>
             <div className="dresscode-copy">
               <p>
-                Vi kör <strong>sommarkavaj</strong> båda dagarna. Gärna personligt, somrigt och med lite extra finess på lördagen!
+                Vi kör <strong>sommarkavaj</strong> båda dagarna med lite extra finess på lördagen!
               </p>
               <p>
                 Ett litet tips från oss: gräs, sand och grus är en del av charmen, så välj skor som trivs även utanför dansgolvet. Någon varmare tröja, sjal eller jacka är inte heller helt fel till kvällens svalare timmar.
@@ -302,7 +302,7 @@ export default function App() {
               </details>
               <details>
                 <summary>Boende om jag bara kan delta på lördagen?</summary>
-                <p>Efter 29 april öppnas hotellen till allmänheten – boka gärna då, men notera i bokningen att du ska på bröllopet. Om hotellen är fullbokade finns massor av alternativ, till exempel Villa Alskog, Havsängen och Ardrebo B&amp;B.</p>
+                <p>Efter den 29 april öppnar hotellen för allmänheten. Boka gärna då om det finns rum kvar, men skriv i bokningen att du ska på bröllopet. Är hotellen fullbokade finns det gott om andra alternativ, till exempel Villa Alskog, Havsängen eller Ardrebo B&amp;B.</p>
               </details>
               <details>
                 <summary>Hur kommer vi hem från festen?</summary>
@@ -314,13 +314,15 @@ export default function App() {
               </details>
               <details>
                 <summary>Vem kontaktar jag om jag vill hålla tal?</summary>
-                <p>Vår toastmaster Victor Pettersson eller toastmadame Mikaela Lindén. Hör av dig i förväg om du vill hålla tal eller spex – inga spontana inslag under kvällen. Deras kontaktuppgifter kommer här så snart de är bekräftade.</p>
+                <p>
+                  Vår toastmaster Victor Pettersson eller toastmadame Mikaela Lindén. Hör av dig i förväg om du vill hålla tal eller spex – inga spontana inslag under kvällen. Mikaela (<a href="tel:0725457788">072-545 77 88</a>) &amp; Victor (<a href="tel:0760212181">076-021 21 81</a>).
+                </p>
               </details>
             </div>
             <div className="contactcard" id="vardar">
               <h3>Helgens toastpar</h3>
               <p>
-                Eftersom schemat är fyllt med roliga inslag ber vi er att inte hålla några spontana tal eller spex. Vill ni bidra med ett tal, spex eller en överraskning? Hör gärna av er till <strong>Victor Pettersson</strong>, vår toastmaster, eller <strong>Mikaela Lindén</strong>, vår toastmadame, i förväg så hjälper de er att ordna det!
+                Vill ni bidra med ett tal, spex eller en överraskning? Hör gärna av er till <strong>Victor Pettersson</strong>, vår toastmaster, eller <strong>Mikaela Lindén</strong>, vår toastmadame, i förväg så hjälper de er att ordna det!
               </p>
               <p className="small">
                 <strong>Mikaela:</strong> <a href="tel:0725457788">072-545 77 88</a> &amp; <strong>Victor:</strong>{" "}
@@ -336,7 +338,7 @@ export default function App() {
               <div className="eyebrow">O.S.A. &amp; övrig information</div>
               <h2>Kommer du?</h2>
               <p>
-                Vi hoppas såklart på ett stort, härligt JA! Svara senast <strong>29 april 2027</strong> och berätta om du kommer fredag, lördag eller båda dagarna.
+                Vi hoppas såklart på ett stort, härligt JA! Svara senast <strong>29 april 2027</strong>. Ange gärna ifall ni närvarar under hela helgen eller bara kan komma på lördagen.
               </p>
               <p>
                 Ta gärna med information om allergier, specialkost eller om du hellre vill ha alkoholfritt i glaset. Och om du vill svara även för din respektive går det fint.
