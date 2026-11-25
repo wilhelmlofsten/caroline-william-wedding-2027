@@ -443,6 +443,13 @@ function RsvpForm() {
   const [withPartner, setWithPartner] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [feedback, setFeedback] = useState("");
+  const [toastOpen, setToastOpen] = useState(false);
+
+  useEffect(() => {
+    if (!toastOpen) return;
+    const timer = window.setTimeout(() => setToastOpen(false), 6000);
+    return () => window.clearTimeout(timer);
+  }, [toastOpen]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -484,6 +491,7 @@ function RsvpForm() {
 
     setStatus("sending");
     setFeedback("");
+    setToastOpen(false);
 
     const payload: Record<string, string> = {
       _subject: withPartner ? `OSA: ${name} & ${pname}` : `OSA: ${name} (Fre: ${fri}, Lör: ${sat})`,
@@ -518,6 +526,7 @@ function RsvpForm() {
       if (!response.ok || String(result.success) !== "true") throw new Error();
       setStatus("success");
       setFeedback("Tack! Ditt svar är skickat till oss.");
+      setToastOpen(true);
       form.reset();
       setWithPartner(false);
     } catch {
@@ -604,12 +613,24 @@ function RsvpForm() {
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <button className="button" type="submit" disabled={status === "sending"}>
+      <button className="button submit-btn" type="submit" disabled={status === "sending"} aria-busy={status === "sending"}>
+        {status === "sending" && <span className="spinner" aria-hidden="true" />}
         {status === "sending" ? "Skickar..." : "Skicka O.S.A."}
       </button>
       {feedback && (
         <div className={`status ${status === "error" ? "error" : ""}`} role="status">
           {feedback}
+        </div>
+      )}
+      {toastOpen && (
+        <div className="rsvp-toast" role="status" aria-live="polite">
+          <div>
+            <strong>Tack för ditt O.S.A.!</strong>
+            <p>Ditt svar är skickat till oss.</p>
+          </div>
+          <button type="button" className="rsvp-toast-close" aria-label="Stäng meddelande" onClick={() => setToastOpen(false)}>
+            ×
+          </button>
         </div>
       )}
     </form>

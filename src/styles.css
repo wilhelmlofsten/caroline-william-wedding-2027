@@ -18,3 +18,13 @@ nav a.nav-osa:hover{background:#994329;color:#fff;text-decoration:none}
 .dresscode-green{background:#292b26;color:#fff}.dresscode-green .eyebrow{color:#fff}.dresscode-green h2{color:#fff}.dresscode-green .dresscode-copy{max-width:760px}.dresscode-green .dresscode-copy p{color:#fff}.dresscode-green strong{color:#fff}
 .honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .status.error{color:var(--red)}
+.rsvpform .submit-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rsvp-toast{position:fixed;right:24px;bottom:24px;z-index:50;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;max-width:360px;background:#fff;color:var(--green);border:1px solid var(--line);border-left:3px solid var(--red);padding:16px 18px;box-shadow:0 10px 28px rgba(0,0,0,.18);animation:toast-in .22s ease-out}
+.rsvp-toast strong{display:block;font:600 22px/1.15 var(--serif);color:var(--red);margin-bottom:4px}
+.rsvp-toast p{margin:0;font-size:13px;color:#565c54}
+.rsvp-toast-close{background:none;border:0;padding:0 2px;color:var(--muted);font-size:20px;line-height:1}
+.rsvp-toast-close:hover{color:var(--green)}
+@keyframes toast-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:550px){.rsvp-toast{left:16px;right:16px;bottom:16px;max-width:none}}
