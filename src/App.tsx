@@ -509,7 +509,7 @@ function RsvpForm() {
     payload["Hälsning"] = note || "–";
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${OSA_EMAIL}`, {
+      const response = await fetch(`https://formsubmit.co/ajax/77da6cb8c26555171dd6254e97c71074`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
